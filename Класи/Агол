@@ -1,0 +1,56 @@
+#include <iostream>
+using namespace std;
+
+class Agol {
+  private:
+    int stepeni;
+    int minuti;
+    int sekundi;
+    public:
+    Agol()
+    {
+    stepeni=0;
+        minuti=0;
+        sekundi=0;
+    }
+    void set_stepeni(int deg)
+    {
+    stepeni=deg;
+    }
+    void set_minuti(int min)
+    {
+    minuti=min;
+    }
+    void set_sekundi(int sec)
+    {
+    sekundi=sec;
+    }
+    int to_sekundi()
+    {
+    return sekundi+minuti*60+stepeni*60*60;
+    }
+};
+int proveri(int stepenii, int minutii, int sekundii)
+{
+if((stepenii>=0&&stepenii<=360)&&(minutii>=0&&minutii<=60)&&(sekundii>=0&&sekundii<60))
+return 1;
+return 0;    
+}
+int main() {
+    Agol a1;
+    //da se instancira objekt od klasata Agol
+    int deg, min, sec;
+    cin >> deg >> min >> sec;
+    
+    if (proveri(deg, min, sec)) {
+    
+    	a1.set_stepeni(deg);
+        a1.set_minuti(min);
+        a1.set_sekundi(sec);
+        cout << a1.to_sekundi();
+        
+    }
+    else cout<<"Nevalidni vrednosti za agol"<<endl;
+    
+    return 0;
+}
