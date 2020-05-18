@@ -1,0 +1,172 @@
+#include<iostream>
+#include<cstring>
+#include<cmath>
+using namespace std;
+class Igrachka {
+public:
+    virtual float getVolumen() = 0;
+    virtual float getMasa() = 0;
+    virtual float getPlostina()=0;
+    //дополнително барање 1
+};
+
+class Forma {
+protected:
+    char boja[100];
+    int gustina;
+public:
+    Forma(const char *boja="",const int gustina=0)
+    {
+    strcpy(this->boja,boja);
+        this->gustina=gustina;
+    }
+    
+    // да се имплементираат потребните методи
+   
+};
+class Kocka: public Igrachka, public Forma
+{
+private:
+    int height,width,depth;
+    public:
+    Kocka(const char *boja="",const int gustina=0, const int height=0, const int width=0,const int depth=0):Forma(boja,gustina)
+    {
+        this->height=height;
+        this->width=width;
+        this->depth=depth;
+    }
+    ~Kocka() { }
+    float getVolumen()
+    {
+    return height*width*depth;
+    }
+    float getMasa()
+    {
+    return getVolumen()*gustina;
+    }
+    float getPlostina()
+    {
+    return 2*(height*width+width*depth+height*depth);
+    }
+};
+class Topka: public Igrachka, public Forma
+{
+private:
+    int radius;
+    public:
+    Topka(const char *boja="",const int gustina=0, const int radius=0):Forma(boja,gustina)
+    {
+    this->radius=radius;
+    }
+    ~Topka() { }
+    float getVolumen()
+    {
+    return 4.0/3*3.14*radius*radius*radius;
+    }
+    float getMasa()
+    {
+    return getVolumen()*gustina;
+    }
+    float getPlostina()
+    {
+    return 4*radius*radius*3.14;
+    }
+};
+void checkMass(float massPetra, Igrachka **kupche, int n)
+{
+float total=0;
+    for(int i=0;i<n;i++)
+    {
+    total+=kupche[i]->getMasa();
+    }
+    if(total>massPetra)
+    {
+    cout<<"DA"<<endl;
+    }
+    else
+    {
+    cout<<"NE"<<endl;
+    }
+}
+float checkVolume(Igrachka **kupche, int n)
+{
+float max=kupche[0]->getVolumen();
+    for(int i=0;i<n;i++)
+    {
+    if(kupche[i]->getVolumen()>max)
+    {
+    max=kupche[i]->getVolumen();
+    }
+    }
+    return max;
+    
+}
+
+
+int main(){
+    int n;
+    float razlika=0;
+    cin>>n;
+    Igrachka **kupche=new Igrachka*[n];
+    int height,width,depth,radius,control,density;
+    char color[100];
+    for(int i=0;i<n;i++)
+    {
+    cin>>control;
+        if(control==1)
+        {
+        cin>>color>>density>>radius;
+            kupche[i]=new Topka(color,density,radius);
+        }
+        else if(control==2)
+        {
+        cin>>color>>density>>height>>width>>depth;
+            kupche[i]=new Kocka(color,density,height,width,depth);
+        }
+    }
+    cin>>color>>density>>height>>width>>depth;
+    Kocka petra(color,density,height,width,depth);
+checkMass(petra.getMasa(),kupche,n);
+    checkVolume(kupche,n);
+   
+    cout<<"Razlikata e: "<<abs(petra.getVolumen()-checkVolume(kupche,n))<<endl;
+   
+    float min_plostina=1000;
+  
+    
+    for(int i=0;i<n;i++)
+    {
+    if(kupche[i]->getPlostina()<min_plostina)
+    {
+    min_plostina=kupche[i]->getPlostina();
+    }
+        
+        razlika=min_plostina-petra.getPlostina();
+        if(razlika<0)
+        {
+        razlika=0-razlika;
+          
+        }
+   
+    }
+      cout<<"Razlikata e: "<<razlika; 
+    for(int i=0;i<n;i++)
+    {
+    delete kupche[i];
+    }
+    delete [] kupche;
+    //vnesi informacii za kupche
+	
+    
+    //vnesi informacii za igrachkata na Petra
+    
+    
+	//baranje 1
+
+
+	//baranje 2
+    
+    //дополнително барање 2
+
+	return 0;
+}
