@@ -1,0 +1,75 @@
+//vashiot kod ovde
+#include<iostream>
+using namespace std;
+class Matrica
+{
+private:
+    float M[100][100];
+    int n;
+    public:
+    Matrica()
+    {
+    }
+    ~Matrica()
+    {
+    }
+    friend ostream& operator<<(ostream &out, const Matrica &H)
+    {
+   for(int i=0;i<H.n;i++)
+   {
+   for(int j=0;j<H.n;j++)
+       out<<H.M[i][j]<<" ";
+       out<<endl;
+   }
+        return out;
+    }
+    friend istream& operator>>(istream &inp, Matrica &H)
+    {
+    inp>>H.n>>H.n;
+        for(int i=0;i<H.n;i++)
+            for(int j=0;j<H.n;j++)
+            inp>>H.M[i][j];
+            return inp;
+    }
+    Matrica& operator+(const int a)
+    {
+    for(int i=0;i<n;i++)
+            for(int j=0;j<n;j++)
+        M[i][j]=M[i][j]+a;
+        return *this;
+    }
+    Matrica& operator-(Matrica &H)
+    {
+    for(int i=0;i<n;i++)
+            for(int j=0;j<n;j++)
+        M[i][j]=M[i][j]-H.M[i][j];
+        return *this;
+    }
+    
+    Matrica operator*(Matrica &H)
+    {
+    Matrica G;
+        G.n=n;
+        for(int i=0;i<G.n;i++)
+        {
+            for(int j=0;j<G.n;j++)
+            {
+            G.M[i][j]=0;
+                for(int k=0;k<G.n;k++)
+                    G.M[i][j]=G.M[i][j]+M[i][k]*H.M[k][j];
+            }
+        }
+            
+         return G;   
+    }
+    
+    
+};
+int main()
+{
+    Matrica A,B,C;
+    cin>>A>>B>>C;
+    Matrica D=B*C;
+    Matrica R=A-D+2;
+    cout<<R;
+}
